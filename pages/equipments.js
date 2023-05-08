@@ -34,7 +34,7 @@ function BlurImage({ equipment }) {
   return (
     <a href={equipment.photo}>
       <div className="rounded-lg bg-gray-200">
-        <Image alt="" src={equipment.photo} width={200} height={100} />
+        <Image alt="" src={equipment.photo} width={200} height={100} unoptimized />
       </div>
       <h3 className="mt-4 text-sm text-gray-700">{equipment.equipment_name}</h3>
       <p className="mt-1 text-lg font-medium text-gray-900">
