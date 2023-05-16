@@ -64,10 +64,12 @@ export default function Navbar() {
 
   const links = [
     {
+      id:"1",
       href: "/",
       label: "Home",
     },
     {
+      id:"2",
       href: "/equipments",
       label: "Equipments",
     },
@@ -85,7 +87,7 @@ export default function Navbar() {
           <div className="flex">
             <ul className="menu menu-horizontal px-1 flex flex-row">
               {links.map((link) => (
-                <li>
+                <li key={link.id}>
                   <Link href={link.href} className={classes.link}>
                     {link.label}
                   </Link>
