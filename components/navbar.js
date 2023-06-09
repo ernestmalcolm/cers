@@ -70,7 +70,7 @@ const useStyles = createStyles((theme) => ({
     "&, &:hover": {
       color: "#FFCD11",
       [theme.fn.smallerThan("sm")]: {
-        backgroundColor:'#F5F5F5',
+        backgroundColor: "#F5F5F5",
       },
     },
   },
@@ -89,7 +89,7 @@ export default function Navbar() {
       label: "Equipments",
     },
     {
-      href: "/register",
+      href: "/signup",
       label: "Get Started",
     },
   ];
