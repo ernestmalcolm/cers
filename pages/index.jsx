@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Inter } from "next/font/google";
-import HomeCarousel from "@/components/carousel";
+import HomeCarousel from "@/components/homeCarousel";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +18,7 @@ export default function Home() {
           </p>
         </div>
         <div className="w-full">
-          <HomeCarousel className="w-full" />
+          <HomeCarousel className="w-4/5" />
         </div>
       </div>
     </div>

@@ -1,14 +1,11 @@
 import Image from "next/image";
-import { createClient } from "@supabase/supabase-js";
+import { supabaseClient } from "@/utils/supabaseClient";
+import Link from "next/link";
 import { Button } from "@mantine/core";
 
-export async function getStaticProps() {
-  const supabaseAdmin = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || "",
-    process.env.SUPABASE_SERVICE_ROLE_KEY || ""
-  );
+export async function getServerSideProps() {
 
-  const { data } = await supabaseAdmin
+  const { data } = await supabaseClient
     .from("equipments")
     .select("*")
     .order("equipment_id");
@@ -34,7 +31,8 @@ export default function Equipments({ equipments }) {
 function EquipmentImage({ equipment }) {
   return (
     <div>
-      <a href={equipment.photo}>
+      <Link href={`/equipments/${equipment.equipment_id}`}>
+        {/*<a>*/}
         <div className="rounded-lg bg-gray-200">
           <Image
             alt=""
@@ -47,10 +45,11 @@ function EquipmentImage({ equipment }) {
         <h3 className="mt-4 font-bold text-gray-900">
           {equipment.equipment_name}
         </h3>
-        <p className="mt-1 font-normal text-sm text-gray-700">
+        <p className="mt-1 font-normal text-sm text-gray-700 truncate">
           {equipment.equipment_description}
         </p>
-      </a>
+        {/*</a>*/}
+      </Link>
     </div>
   );
 }

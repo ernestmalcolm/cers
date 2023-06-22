@@ -89,6 +89,7 @@ export default function Navbar() {
       label: "Equipments",
     },
     {
+      id: "3",
       href: "/signup",
       label: "Get Started",
     },
