@@ -1,5 +1,4 @@
 import { Carousel } from "@mantine/carousel";
-// import { useMediaQuery } from '@mantine/hooks';
 import {
   createStyles,
   Paper,
@@ -48,13 +47,7 @@ function HomeCard({ image, title, category }) {
   const { classes } = useStyles();
 
   return (
-    <Paper
-      shadow="md"
-      p="xl"
-      radius="md"
-      // sx={{ backgroundImage: `url(${image})` }}
-      className={classes.card}
-    ></Paper>
+    <Paper shadow="md" p="xl" radius="md" className={classes.card}></Paper>
   );
 }
 
@@ -63,31 +56,31 @@ const data = [
     image:
       "https://drive.google.com/uc?export=view&id=1StUEuP0OdY4htBrx2t6EQ_0Hmwl1is8-",
     title: "Best forests to visit in North America",
+    alt: "Equipment photos",
   },
   {
     image:
       "https://drive.google.com/uc?export=view&id=1_WUdd3TAgCN3wwIloOz2Y_JQnGtQ9Eng",
     title: "Hawaii beaches review: better than you think",
+    alt: "Equipment photos",
   },
   {
     image:
       "https://drive.google.com/uc?export=view&id=1pJAkaFZUo90iz_dCpZ-0hSU_X4VQakJK",
     title: "Mountains at night: 12 best locations to enjoy the view",
+    alt: "Equipment photos",
   },
   {
     image:
       "https://drive.google.com/uc?export=view&id=1x9-v6uSNDjeSwF5wLxOXL386ARomA3uB",
     title: "Aurora in Norway: when to visit for best experience",
+    alt: "Equipment photos",
   },
-  // {
-  //   image:
-  //     "https://drive.google.com/uc?export=view&id=1JFPlGGkP0UyOrZDANijj1jkcQ11ji_2g",
-  //   title: "Best places to visit this winter",
-  // },
   {
     image:
       "https://drive.google.com/uc?export=view&id=1tuwOMz5I3x7iIW62-M2saASP75gDZHqh",
     title: "Active volcanos reviews: travel at your own risk",
+    alt: "Equipment photos",
   },
 ];
 
@@ -97,9 +90,9 @@ export default function HomeCarousel() {
   const { classes } = useStyles();
   const slides = data.map((item) => (
     <Carousel.Slide key={item.title}>
-      {/*<HomeCard {...item} />*/}
       <Image
         src={item.image}
+        alt={item.alt}
         width={250}
         height={100}
         className="w-full rounded"

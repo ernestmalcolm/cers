@@ -7,7 +7,8 @@ export async function RegisterUser(
   address,
   phoneNumber,
   role,
-  displayAlertCallback
+  displayAlertCallback,
+  router
 ) {
   const { data, session, user, error } = await supabaseClient.auth.signUp({
     email: email,
@@ -20,31 +21,33 @@ export async function RegisterUser(
     },
   });
   if (!error) {
-    // window.location.href = "https://cers.vercel.app/signup";
-    window.location.href = "http://localhost:3000/signup";
+    router.push("/signup");
   } else {
     if (error.message.charAt(0) === "T") {
       displayAlertCallback(error.message);
+      window.alert(error.message);
     } else {
       displayAlertCallback(
         "User is not registered, check the email and password"
       );
+      window.alert("User is not registered, check the email and password");
     }
     console.log(error);
   }
 }
 
-export async function LoginUser(email, password) {
+export async function LoginUser(email, password, router) {
   const { data, error } = await supabaseClient.auth.signInWithPassword({
     email: email,
     password: password,
   });
 
   if (!error) {
-    // window.location.href = "https://cers.vercel.app/equipments";
-    window.location.href = "http://localhost:3000/equipments";
+    console.log("User logged in");
+    await router.push("/renter");
   } else {
-    console.log(error);
+    console.log(error.message);
+    window.alert(error.message);
   }
 }
 
@@ -57,7 +60,8 @@ export async function AddRental(
   total_price,
   details,
   equipment_id,
-  user_id
+  user_id,
+  router
 ) {
   const { data, error } = await supabaseClient.from("rentals").insert([
     {
@@ -75,10 +79,12 @@ export async function AddRental(
 
   if (error) {
     console.error("Error inserting rental:", error.message);
+    window.alert("Error inserting rental:", error.message);
     return;
   } else {
     console.log("Rental inserted successfully:", data);
+    window.alert("Rental inserted successfully:", data);
   }
 
-  window.location.href = "http://localhost:3000/rentals";
+  router.push("/rentals");
 }
