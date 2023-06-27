@@ -44,6 +44,7 @@ export async function LoginUser(email, password, router) {
 
   if (!error) {
     console.log("User logged in");
+    console.log();
     await router.push("/renter");
   } else {
     console.log(error.message);
@@ -80,11 +81,10 @@ export async function AddRental(
   if (error) {
     console.error("Error inserting rental:", error.message);
     window.alert("Error inserting rental:", error.message);
+    router.push("/rentals");
     return;
   } else {
     console.log("Rental inserted successfully:", data);
     window.alert("Rental inserted successfully:", data);
   }
-
-  router.push("/rentals");
 }
