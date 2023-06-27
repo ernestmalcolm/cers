@@ -7,6 +7,7 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 config.autoAddCss = false;
 
 import { supabaseClient } from "@/utils/supabaseClient";
+import { ModalsProvider } from "@mantine/modals";
 
 export default function App({ Component, pageProps }) {
   return (
@@ -28,9 +29,11 @@ export default function App({ Component, pageProps }) {
         }),
       }}
     >
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <ModalsProvider>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </ModalsProvider>
     </MantineProvider>
   );
 }

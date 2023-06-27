@@ -116,9 +116,7 @@ export default function Navbar() {
                       [classes.linkActive]: active === link.href,
                     })}
                     onClick={(event) => {
-                      // event.preventDefault();
                       setActive(link.href);
-                      // close();
                     }}
                   >
                     {link.label}
@@ -146,9 +144,7 @@ export default function Navbar() {
                       [classes.linkActive]: active === link.href,
                     })}
                     onClick={(event) => {
-                      // event.preventDefault();
                       setActive(link.href);
-                      // close();
                     }}
                   >
                     {link.label}

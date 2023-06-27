@@ -1,11 +1,6 @@
 import { supabaseClient } from "@/utils/supabaseClient";
 
-import { useState, useEffect } from "react";
-
 import RentalModal from "../../components/rentalModal";
-import { Modal } from "@mantine/core";
-
-// import { Carousel } from "@mantine/carousel";
 import {
   Card,
   Image,
@@ -16,6 +11,7 @@ import {
   getStylesRef,
   rem,
 } from "@mantine/core";
+import { openModal } from "@mantine/modals";
 
 export async function getServerSideProps(context) {
   const { id } = context.params;
@@ -75,7 +71,6 @@ const useStyles = createStyles((theme) => ({
   },
 
   //carousel styles
-
   carousel: {
     "&:hover": {
       [`& .${getStylesRef("carouselControls")}`]: {
@@ -103,40 +98,6 @@ const useStyles = createStyles((theme) => ({
 
 export default function EquipmentPage({ equipment }) {
   const { classes } = useStyles();
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const [session, setSession] = useState(null);
-
-  // useEffect(() => {
-  //   const callback = (event, newSession) => {
-  //     if (event === 'SIGNED_IN') {
-  //       setSession(newSession);
-  //     } else if (event === 'SIGNED_OUT') {
-  //       setSession(null);
-  //     }
-  //   };
-
-  //   // supabaseClient.auth.onAuthStateChange(callback);
-
-  //   // Clean up the subscription
-  //   return () => {
-  //     // supabaseClient.auth.offAuthStateChange(callback);
-  //   };
-  // }, []);
-
-  const handleRentClick = () => {
-    setIsModalOpen(true);
-    // if (session) {
-    //   console.log("User is logged in:", session.user);
-    // } else {
-    //   window.location.href = "/signup";
-    // }
-  };
-
-  const handleModalClose = () => {
-    setIsModalOpen(false);
-  };
 
   return (
     <>
@@ -171,7 +132,13 @@ export default function EquipmentPage({ equipment }) {
               <Button
                 radius="md"
                 className="flex bg-orange hover:bg-gray"
-                onClick={() => handleRentClick()}
+                onClick={() =>
+                  openModal({
+                    title: "",
+                    children: <RentalModal />,
+                    size: "lg",
+                  })
+                }
               >
                 Rent now
               </Button>
@@ -188,8 +155,6 @@ export default function EquipmentPage({ equipment }) {
           </Text>
         </Card.Section>
       </Card>
-
-      {isModalOpen && <RentalModal onClose={handleModalClose} />}
     </>
   );
 }

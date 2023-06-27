@@ -1,10 +1,10 @@
+"use client";
+
 import Image from "next/image";
 import { supabaseClient } from "@/utils/supabaseClient";
 import Link from "next/link";
-import { Button } from "@mantine/core";
 
 export async function getServerSideProps() {
-
   const { data } = await supabaseClient
     .from("equipments")
     .select("*")
@@ -32,7 +32,6 @@ function EquipmentImage({ equipment }) {
   return (
     <div>
       <Link href={`/equipments/${equipment.equipment_id}`}>
-        {/*<a>*/}
         <div className="rounded-lg bg-gray-200">
           <Image
             alt=""
@@ -48,7 +47,6 @@ function EquipmentImage({ equipment }) {
         <p className="mt-1 font-normal text-sm text-gray-700 truncate">
           {equipment.equipment_description}
         </p>
-        {/*</a>*/}
       </Link>
     </div>
   );

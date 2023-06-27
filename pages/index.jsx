@@ -1,8 +1,6 @@
-import Image from "next/image";
-import { Inter } from "next/font/google";
+import Link from "next/link";
+import { Button } from "@mantine/core";
 import HomeCarousel from "@/components/homeCarousel";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   return (
@@ -16,6 +14,15 @@ export default function Home() {
             CERS provides easy and reliable access to construction equipments
             available for rent in the marketplace at any time
           </p>
+          <Link href="/signup">
+            <Button
+              type="submit"
+              radius="sm"
+              className="bg-orange text-darkgray hover:bg-lightgray w-96 h-12 my-10 text-xl font-bold"
+            >
+              Get Started
+            </Button>
+          </Link>
         </div>
         <div className="w-full">
           <HomeCarousel className="w-4/5" />

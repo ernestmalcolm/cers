@@ -1,14 +1,13 @@
 import { AddRental } from "@/utils/supabase";
 import { v4 as uuidv4 } from "uuid";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 import { Select } from "@mantine/core";
 import { Text, Group, Button, Stack, Textarea } from "@mantine/core";
 import { useState } from "react";
 import { DateInput } from "@mantine/dates";
+import { useRouter } from "next/navigation";
 
-export default function RentalModal({onClose}) {
+export default function RentalModal() {
   const currentDate = new Date();
   const [startDate, setStartDate] = useState(currentDate);
 
@@ -19,6 +18,8 @@ export default function RentalModal({onClose}) {
   const [detailsValue, setDetails] = useState("");
 
   const [inquiryStatus, setInquiryStatus] = useState("pending");
+
+  const router = useRouter();
 
   const options = { year: "numeric", month: "2-digit", day: "2-digit" };
   const formattedDate = currentDate.toLocaleDateString(undefined, options);
@@ -74,30 +75,25 @@ export default function RentalModal({onClose}) {
       total_price,
       detailsValue,
       equipment_id,
-      user_id
+      user_id,
+      router
     );
-
-    // Clear form fields
-    // setStartDate(new Date());
-    // setEndDate(new Date());
   };
 
   return (
-    <div className="z-50 absolute top-24 laptop:top-32 left-16 laptop:left-1/4 p-10 w-4/5 laptop:w-2/5 bg-lightgray rounded shadow-lg border-black">
-      <FontAwesomeIcon
-        icon={faXmark}
-        className="absolute right-6 top-3 font-semibold text-xl text-darkgray"
-        onClick={onClose}
-      />
+    <div className="px-4 pb-4">
       <form className="w-full">
-        <Text size="lg" weight={500} className="flex justify-center mb-5">
+        <Text
+          size="lg"
+          weight={600}
+          className="flex text-xl justify-center mb-5"
+        >
           Please fill inquiry details
         </Text>
         <Stack>
           <div className="flex flex-col laptop:flex-row laptop:justify-between">
             <DateInput
               required
-              //   value={startDate}
               minDate={new Date()}
               onChange={handleStartDate}
               label="Start date"
@@ -106,7 +102,6 @@ export default function RentalModal({onClose}) {
             />
             <DateInput
               required
-              //   value={endDate}
               minDate={new Date()}
               onChange={handleEndDate}
               label="End date"

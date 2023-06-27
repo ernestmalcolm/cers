@@ -12,6 +12,7 @@ import {
   Select,
 } from "@mantine/core";
 import { LoginUser, RegisterUser } from "@/utils/supabase";
+import { useRouter } from "next/navigation";
 
 export default function Signup() {
   //Handles Register or Login
@@ -31,6 +32,8 @@ export default function Signup() {
   const [alertMessage, setAlertMessage] = useState("");
   const [alertClassName, setAlertClassName] = useState("");
 
+  const router = useRouter();
+
   //Login methods
   const handleLoginEmail = (event) => {
     // form.setFieldValue("password", event.currentTarget.value);
@@ -43,7 +46,7 @@ export default function Signup() {
 
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
-    await LoginUser(loginEmail, loginPassword);
+    await LoginUser(loginEmail, loginPassword, router);
   };
 
   //Register methods
@@ -58,6 +61,7 @@ export default function Signup() {
   const handleAddress = (e) => {
     setAddress(e.target.value);
   };
+
   const handlePhoneNumber = (e) => {
     setPhoneNumber(e.target.value);
   };
@@ -80,7 +84,6 @@ export default function Signup() {
 
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
-    // console.log(registerEmail);
 
     const passwordRegex =
       /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])/;
@@ -99,7 +102,8 @@ export default function Signup() {
         address,
         phoneNumber,
         role,
-        displayAlert
+        displayAlert,
+        router
       );
     }
   };
@@ -129,7 +133,6 @@ export default function Signup() {
                   required
                   label="Name"
                   placeholder="Your name"
-                  // value={form.values.name}
                   onChange={handleName}
                   radius="md"
                 />
@@ -137,18 +140,15 @@ export default function Signup() {
                   required
                   label="Email"
                   placeholder="hello@example.com"
-                  // value={form.values.email}
                   id="email"
                   name="email"
                   onChange={handleRegisterEmail}
-                  // error={form.errors.email && "Invalid email"}
                   radius="md"
                 />
                 <TextInput
                   required
                   label="Address"
                   placeholder="Dar-es-salaam"
-                  // value={form.values.address}
                   onChange={handleAddress}
                   radius="md"
                 />
@@ -182,12 +182,7 @@ export default function Signup() {
                   placeholder="Your password"
                   id="password"
                   name="password"
-                  // value={form.values.password}
                   onChange={handleRegisterPassword}
-                  // error={
-                  //   form.errors.password &&
-                  //   "Password should include at least 6 characters"
-                  // }
                   radius="md"
                 />
               </Stack>
@@ -197,11 +192,9 @@ export default function Signup() {
                   required
                   label="Email"
                   placeholder="hello@example.com"
-                  // value={form.values.email}
                   id="email"
                   name="email"
                   onChange={handleLoginEmail}
-                  // error={form.errors.email && "Invalid email"}
                   radius="md"
                 />
                 <PasswordInput
@@ -210,12 +203,7 @@ export default function Signup() {
                   placeholder="Your password"
                   id="password"
                   name="password"
-                  // value={form.values.password}
                   onChange={handleLoginPassword}
-                  // error={
-                  //   form.errors.password &&
-                  //   "Password should include at least 6 characters"
-                  // }
                   radius="md"
                 />
               </Stack>
