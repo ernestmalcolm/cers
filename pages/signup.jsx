@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { useToggle, upperFirst } from "@mantine/hooks";
 import {
@@ -46,6 +48,7 @@ export default function Signup() {
 
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
+
     await LoginUser(loginEmail, loginPassword, router);
   };
 
@@ -69,7 +72,6 @@ export default function Signup() {
     setRegisterPassword(e.target.value);
   };
   const handleRole = (value) => {
-    // console.log(e.value.data);
     setRole(value);
   };
 
@@ -83,8 +85,6 @@ export default function Signup() {
   };
 
   const handleRegisterSubmit = async (e) => {
-    e.preventDefault();
-
     const passwordRegex =
       /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])/;
     const isValidPassword =
@@ -95,6 +95,8 @@ export default function Signup() {
         "Signup requires a valid password, should be longer than 6 characters, has a special character, upper case letters and a number"
       );
     } else {
+      e.preventDefault();
+
       await RegisterUser(
         registerEmail,
         registerPassword,
@@ -109,7 +111,7 @@ export default function Signup() {
   };
 
   return (
-    <div className="bg-registerbg bg-cover min-h-screen flex justify-center items-center ">
+    <div className="bg-registerbg bg-cover min-h-screen flex justify-center items-center rounded ">
       <Paper
         shadow="sm"
         p="md"

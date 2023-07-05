@@ -10,8 +10,12 @@ import {
   Button,
   getStylesRef,
   rem,
+  Badge,
 } from "@mantine/core";
 import { openModal } from "@mantine/modals";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
 
 export async function getServerSideProps(context) {
   const { id } = context.params;
@@ -115,27 +119,30 @@ export default function EquipmentPage({ equipment }) {
             <Text fz="xl" className="laptop:font-semibold">
               {equipment.equipment_name}
             </Text>
-            <Text fz="sm" c="dimmed" className="">
+            <Text fz="sm" c="dimmed" className="text-lg">
+              <FontAwesomeIcon icon={faLocationDot} className="mr-1" />
               {equipment.location}
             </Text>
           </div>
           <div className="flex laptop:gap-2 laptop:flex-col laptop:w-40">
             <div className="flex laptop:justify-center laptop:w-full">
-              <Text fz="xl" fw={700}>
-                {equipment.price}
-              </Text>
-              <Text fz="sm" c="dimmed" fw={700}>
-                per day
+              <Text
+                fz="xl"
+                className="text-sm rounded font-semibold p-2 text-darkgray bg-orange bg-opacity-50 mt-2 normal-case"
+              >
+                Tsh.{equipment.price} per day
               </Text>
             </div>
             <div className="flex laptop:justify-center laptop:w-full">
               <Button
                 radius="md"
-                className="flex bg-orange hover:bg-gray"
+                className="flex text-darkgray hover:text-lightgray bg-orange hover:bg-gray "
                 onClick={() =>
                   openModal({
                     title: "",
-                    children: <RentalModal />,
+                    children: (
+                      <RentalModal equipmentId={equipment.equipment_id} />
+                    ),
                     size: "lg",
                   })
                 }
