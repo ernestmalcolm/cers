@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['drive.google.com', 'images.unsplash.com'],
+    domains: ["drive.google.com", "images.unsplash.com"],
     remotePatterns: [
       {
         protocol: "https",
@@ -12,6 +12,7 @@ const nextConfig = {
         protocol: "https",
         hostname: "**.images.unsplash.com",
       },
+      { protocol: "https", hostname: "gjghraakekbiiwvlmout.supabase.co" },
     ],
   },
 };

@@ -25,7 +25,7 @@ import ViewRentalModal from "@/components/viewRentalModal";
 export async function getServerSideProps({ req }) {
   const { data } = await supabaseClient
     .from("rentals")
-    .select("*, equipments(equipment_name,photo)")
+    .select("*, equipments(equipment_name)")
     .order("rental_id");
   return {
     props: {
@@ -49,9 +49,33 @@ export default function OwnerRentals({ rentals }) {
 function RentalRow({ rental }) {
   const [selectedRentalId, setSelectedRentalId] = useState(null);
 
-  const handleRentalClick = () => {
+  const handleViewRental = (selectedRentalId) => {
     setSelectedRentalId(rental.rental_id);
+    openModal({
+      title: "",
+      children: <ViewRentalModal rental_id={selectedRentalId} />,
+      size: "lg",
+    });
   };
+
+  const handleCancelClick = (selectedRentalId) => {
+    setSelectedRentalId(rental.rental_id);
+    openModal({
+      title: "",
+      children: <CancelRentalModal rental_id={selectedRentalId} />,
+      size: "lg",
+    });
+  };
+
+  const handleConfirmClick = (selectedRentalId) => {
+    setSelectedRentalId(rental.rental_id);
+    openModal({
+      title: "",
+      children: <ConfirmRentalModal rental_id={selectedRentalId} />,
+      size: "lg",
+    });
+  };
+
   return (
     <div>
       <Card shadow="sm" radius="sm" withBorder className="laptop:h-fit">
@@ -62,77 +86,48 @@ function RentalRow({ rental }) {
           className="flex laptop:flex-row laptop:justify-between"
         >
           <div
-            className="flex flex-row gap-32 cursor-pointer"
+            className="flex cursor-pointer"
             onClick={() => {
-              handleRentalClick();
-              openModal({
-                title: "",
-                children: <ViewRentalModal rentalId={selectedRentalId} />,
-                size: "lg",
-              });
+              handleViewRental(rental.rental_id);
             }}
           >
-            <div>
-              <Text className="text-lg font-bold my-2 mx-0 flex text-darkgray">
-                {rental.equipments.equipment_name}
-              </Text>
+            <Text className="text-lg font-bold my-2 mx-6 flex flex-col text-darkgray">
+              {rental.equipments.equipment_name}
               <Badge
                 variant="light"
                 className="text-xs font-bold w-fit text-darkgray bg-orange bg-opacity-50 mt-2 normal-case"
               >
                 Total Rental Price: Tsh.{rental.total_price}/=
               </Badge>
-              <Text className="text-lg font-bold my-2 mx-0 flex text-darkgray">
-                {rental.details}
-              </Text>
-            </div>
-            <div>
               <Text c="dimmed" className="text-md font-normal mt-2">
-                Start date: {rental.start_date}
+                Start date: {rental.start_date} hours
               </Text>
               <Text c="dimmed" className="text-md font-normal mt-2">
-                End date: {rental.end_date}
+                End date: {rental.end_date} hours
               </Text>
-            </div>
-            <div>
-              <Text c="dimmed" className="text-md font-normal mt-2 normal-case">
-                Status:{" "}
-                {rental.inquiry_status === "pending" ? (
-                  <Badge
-                    variant="light"
-                    radius="sm"
-                    className="text-xs font-bold w-fit text-orange bg-gray bg-opacity-50 mt-2 uppercase"
-                  >
-                    {rental.inquiry_status}
-                  </Badge>
-                ) : rental.inquiry_status === "rented" ? (
-                  <Badge
-                    variant="light"
-                    radius="sm"
-                    className="text-xs font-bold w-fit text-green bg-gray bg-opacity-50 mt-2 uppercase"
-                  >
-                    {rental.inquiry_status}
-                  </Badge>
-                ) : rental.inquiry_status === "cancelled" ? (
-                  <Badge
-                    variant="light"
-                    radius="sm"
-                    className="text-xs font-bold w-fit text-red bg-gray bg-opacity-50 mt-2 uppercase"
-                  >
-                    {rental.inquiry_status}
-                  </Badge>
-                ) : (
-                  // Handle other status values here
-                  <Badge
-                    variant="light"
-                    radius="sm"
-                    className="text-xs font-bold w-fit text-orange bg-gray bg-opacity-50 mt-2 uppercase"
-                  >
-                    {rental.inquiry_status}
-                  </Badge>
-                )}
-              </Text>
-            </div>
+              {rental.details}
+            </Text>
+          </div>
+          <div className="flex flex-col laptop:flex-row laptop:justify-between gap-4">
+            <Button
+              mt="md"
+              radius="sm"
+              className="bg-orange text-darkgray hover:bg-lightgray my-4 text-lg font-bold"
+              onClick={() => handleConfirmClick(rental.rental_id)}
+            >
+              <FontAwesomeIcon icon={faCheck} className="mr-4" />
+              Confirm
+            </Button>
+            <Button
+              radius="sm"
+              className="bg-orange text-darkgray hover:bg-lightgray my-4 text-lg font-bold"
+              onClick={() => {
+                handleCancelClick(rental.rental_id);
+              }}
+            >
+              <FontAwesomeIcon icon={faBan} className="mr-4" />
+              Cancel
+            </Button>
           </div>
         </Group>
       </Card>

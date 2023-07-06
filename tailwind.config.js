@@ -12,6 +12,9 @@ module.exports = {
       lightgray: "#F5F5F5",
       gray: "#303841bf",
       black: "#000000",
+      red: "#FF0000",
+      blue: "#0000FF",
+      green: "#00FF00",
     },
     extend: {
       backgroundImage: {

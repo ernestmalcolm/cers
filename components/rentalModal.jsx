@@ -1,3 +1,5 @@
+"use client";
+
 import { AddRental } from "@/utils/supabase";
 import { v4 as uuidv4 } from "uuid";
 
@@ -7,7 +9,7 @@ import { useState } from "react";
 import { DateInput } from "@mantine/dates";
 import { useRouter } from "next/navigation";
 
-export default function RentalModal() {
+export default function RentalModal({ equipmentId }) {
   const currentDate = new Date();
   const [startDate, setStartDate] = useState(currentDate);
 
@@ -60,7 +62,7 @@ export default function RentalModal() {
 
   const inquiry_status = inquiryStatus;
 
-  const equipment_id = "1";
+  const equipment_id = equipmentId;
   const user_id = "1";
 
   const handleRental = async (e) => {
@@ -123,6 +125,7 @@ export default function RentalModal() {
               "Morogoro",
             ]}
             radius="md"
+            className="text-lightgray"
           />
           <Textarea
             placeholder="Additional details"

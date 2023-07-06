@@ -18,8 +18,8 @@ export async function getServerSideProps({ req }) {
 
 export default function RentalPage({ rentals }) {
   return (
-    <div className="text-darkgray laptop:px-auto">
-      <div>
+    <div className="flex flex-row mx-auto py-8 px-10 mobile:py-4 mobile:px-6 tablet:max-w-7xl tablet:px-8">
+      <div className="text-darkgray flex w-full laptop:px-auto">
         <Table verticalSpacing="xs">
           <thead>
             <tr>

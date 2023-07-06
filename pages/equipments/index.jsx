@@ -3,6 +3,10 @@
 import Image from "next/image";
 import { supabaseClient } from "@/utils/supabaseClient";
 import Link from "next/link";
+import { Badge, Button, Card, Group, Text } from "@mantine/core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
 
 export async function getServerSideProps() {
   const { data } = await supabaseClient
@@ -16,10 +20,10 @@ export async function getServerSideProps() {
   };
 }
 
-export default function Equipments({ equipments }) {
+export default function OwnerEquipments({ equipments }) {
   return (
     <div className="mx-auto max-w-2xl py-8 px-10 mobile:py-4 mobile:px-6 tablet:max-w-7xl tablet:px-8">
-      <div className="grid grid-cols-1 gap-y-10 gap-x-6 mobile:grid-cols-2 tablet:grid-cols-3 laptop:grid-cols-4 laptop:gap-x-8">
+      <div className="grid grid-cols-1 gap-y-10 gap-x-6 mobile:grid-cols-2 tablet:grid-cols-3 laptop:grid-cols-3 laptop:gap-x-8">
         {equipments.map((equipment) => (
           <EquipmentImage key={equipment.equipment_id} equipment={equipment} />
         ))}
@@ -31,23 +35,62 @@ export default function Equipments({ equipments }) {
 function EquipmentImage({ equipment }) {
   return (
     <div>
-      <Link href={`/equipments/${equipment.equipment_id}`}>
-        <div className="rounded-lg bg-gray-200">
+      <Card shadow="sm" padding="lg" radius="sm" withBorder>
+        <Card.Section>
           <Image
-            alt=""
-            src={equipment.photo}
-            width={300}
+            src={`https://gjghraakekbiiwvlmout.supabase.co/storage/v1/object/public/cers_fyp/${equipment.equipment_id}`}
+            // src={equipment.photo}
             height={300}
-            className="rounded-lg"
+            width={300}
+            // fill
+            alt={equipment.equipment_name}
           />
-        </div>
-        <h3 className="mt-4 font-bold text-gray-900">
-          {equipment.equipment_name}
-        </h3>
-        <p className="mt-1 font-normal text-sm text-gray-700 truncate">
+        </Card.Section>
+
+        <Group position="apart" mt="md" mb="xs">
+          <Text className="text-lg font-bold">{equipment.equipment_name}</Text>
+          <div className="flex flex-row gap-32">
+            <Badge
+              variant="light"
+              radius="sm"
+              className="text-xs font-bold w-fit text-darkgray bg-orange bg-opacity-50 mt-2 normal-case"
+            >
+              Tsh.{equipment.price}/day
+            </Badge>
+            {equipment.usage_status === "available" ? (
+              <Badge
+                variant="light"
+                radius="sm"
+                className="text-xs font-bold w-fit text-gray bg-green bg-opacity-50 mt-2 normal-case"
+              >
+                {equipment.usage_status}
+              </Badge>
+            ) : (
+              <Badge
+                variant="light"
+                radius="sm"
+                className="text-xs font-bold w-fit text-gray bg-red bg-opacity-50 mt-2 normal-case"
+              >
+                {equipment.usage_status}
+              </Badge>
+            )}
+          </div>
+        </Group>
+
+        <Text size="sm" color="dimmed" truncate>
           {equipment.equipment_description}
-        </p>
-      </Link>
+        </Text>
+
+        <Button
+          variant="light"
+          fullWidth
+          mt="md"
+          radius="md"
+          className="bg-orange text-darkgray hover:bg-lightgray mt-4 text-lg font-bold"
+        >
+          <Link href={`/equipments/${equipment.equipment_id}`}>View more</Link>
+        </Button>
+      </Card>
     </div>
   );
 }

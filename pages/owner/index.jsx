@@ -1,22 +1,31 @@
-import { supabaseClient } from "@/utils/supabaseClient";
+"use client";
 
+import Image from "next/image";
+import { supabaseClient } from "@/utils/supabaseClient";
+import { Badge, Button, Card, Group, Text } from "@mantine/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faHouse,
-  faToolbox,
-  faTruckFast,
-  faRightFromBracket,
+  faBan,
+  faCheck,
+  faPenToSquare,
+  faPlus,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
-
+import { openModal } from "@mantine/modals";
+import RentalModal from "@/components/rentalModal";
+import AddEquipmentModal from "@/components/addEquipmentModal";
+import EditEquipmentModal from "@/components/editEquipmentModal";
+import DeleteEquipmentModal from "@/components/deleteEquipmentModal";
+import { useState } from "react";
+import CancelRentalModal from "@/components/cancelRentalModal";
+import ConfirmRentalModal from "@/components/confirmRentalModal";
 import Link from "next/link";
-
-import { Button, Table, Text } from "@mantine/core";
-import Image from "next/image";
+import ViewRentalModal from "@/components/viewRentalModal";
 
 export async function getServerSideProps({ req }) {
   const { data } = await supabaseClient
     .from("rentals")
-    .select("*, equipments(equipment_name, equipment_description)")
+    .select("*, equipments(equipment_name)")
     .order("rental_id");
   return {
     props: {
@@ -25,112 +34,96 @@ export async function getServerSideProps({ req }) {
   };
 }
 
-export default function OwnerHome({ rentals }) {
-  const links = [
-    {
-      id: "1",
-      href: "/",
-      label: "Home",
-      icon: <FontAwesomeIcon icon={faHouse} className="mr-2 text-lg" />,
-    },
-    {
-      id: "2",
-      href: "/rentals",
-      label: "My Rentals",
-      icon: <FontAwesomeIcon icon={faTruckFast} className="mr-2 text-lg" />,
-    },
-    {
-      id: "3",
-      href: "/equipments",
-      label: "Equipments",
-      icon: <FontAwesomeIcon icon={faToolbox} className="mr-2 text-lg" />,
-    },
-  ];
+export default function OwnerRentals({ rentals }) {
   return (
-    <div className="flex flex-row w-full">
-      <div className="flex flex-col w-[15%] h-screen text-darkgray bg-lightgray shadow shadow-gray">
-        <div className="px-8 py-4 flex flex-row items-center justify-center">
-          <Link href="/" className="text-lg font-semibold flex">
-            CERS
-          </Link>
-        </div>
-        <nav className="flex-grow px-4 pb-4 text-center justify-center">
-          <Image
-            src="https://images.unsplash.com/photo-1628157588553-5eeea00af15c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
-            alt="Avatar user"
-            width={200}
-            height={200}
-            class="w-2/5 rounded-full mx-auto"
-          />
-          <Text className="mt-2 font-semibold text-xl">Ernest</Text>
-          <Text c="dimmed">Owner</Text>
-          <ul className="flex flex-col text-center justify-center mx-auto my-6">
-            {links.map((link) => (
-              <li key={link.id}>
-                <Link
-                  href={link.href}
-                  className="mx-4 mb-4 text-xl font-medium flex items-center px-2 py-2 hover:text-orange rounded"
-                >
-                  {link.icon}
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-        <Link
-          href="/signup"
-          className="mx-6 mb-4 text-xl font-medium flex items-center px-2 py-2 hover:text-orange rounded"
-        >
-          <FontAwesomeIcon icon={faRightFromBracket} className="mr-2 text-lg" />
-          Logout
-        </Link>
-      </div>
-
-      <div className="text-darkgray flex  laptop:px-auto">
-        <Table verticalSpacing="xs">
-          <thead>
-            <tr>
-              <th>Equipment Name</th>
-              <th>Inquiry Status</th>
-              <th>Start date</th>
-              <th>End date</th>
-              <th>Location</th>
-            </tr>
-          </thead>
-          {rentals.map((rental) => (
-            <OwnerTable key={rental.rental_id} rental={rental} />
-          ))}
-        </Table>
-      </div>
+    <div className="mx-auto max-w-2xl py-8 w-3/4 mobile:py-4 mobile:px-6 tablet:max-w-7xl tablet:px-8">
+      {/*<div className="grid grid-cols-1">*/}
+      {/*  {rentals.map((rental) => (*/}
+      {/*    <RentalRow key={rental.rental_id} rental={rental} />*/}
+      {/*  ))}*/}
+      {/*</div>*/}
+      Hello Owner
     </div>
   );
 }
 
-export function OwnerTable({ rental }) {
-  return (
-    <tbody>
-      <tr>
-        <td>
-          <Link href={`/rentals/${rental.rental_id}`}>
-            {rental.equipments.equipment_name}
-          </Link>
-        </td>
-        <td>
-          <Link href={`/rentals/${rental.rental_id}`}>
-            {rental.inquiry_status}
-          </Link>
-        </td>
-        <td>
-          <Link href={`/rentals/${rental.rental_id}`}>{rental.start_date}</Link>
-        </td>
-        <td>
-          <Link href={`/rentals/${rental.rental_id}`}>{rental.end_date}</Link>
-        </td>
-        <td>
-          <Link href={`/rentals/${rental.rental_id}`}>{rental.location}</Link>
-        </td>
-      </tr>
-    </tbody>
-  );
-}
+// function RentalRow({ rental }) {
+//   console.log(rental);
+//   const [selectedRentalId, setSelectedRentalId] = useState(null);
+//
+//   const handleRentalClick = () => {
+//     setSelectedRentalId(rental.rental_id);
+//     console.log(selectedRentalId);
+//   };
+//   return (
+//     <div>
+//       <Card shadow="sm" radius="sm" withBorder className="laptop:h-fit">
+//         <Group
+//           position="left"
+//           mt="md"
+//           mb="xs"
+//           className="flex laptop:flex-row laptop:justify-between"
+//         >
+//           <div
+//             className="flex cursor-pointer"
+//             onClick={() => {
+//               handleRentalClick();
+//               openModal({
+//                 title: "",
+//                 children: <ViewRentalModal rental_id={selectedRentalId} />,
+//                 size: "lg",
+//               });
+//             }}
+//           >
+//             <Text className="text-lg font-bold my-2 mx-6 flex flex-col text-darkgray">
+//               {rental.equipments.equipment_name}
+//               <Badge
+//                 variant="light"
+//                 className="text-xs font-bold w-fit text-darkgray bg-orange bg-opacity-50 mt-2 normal-case"
+//               >
+//                 Total Rental Price: Tsh.{rental.total_price}/=
+//               </Badge>
+//               <Text c="dimmed" className="text-md font-normal mt-2">
+//                 Start date: {rental.start_date} hours
+//               </Text>
+//               <Text c="dimmed" className="text-md font-normal mt-2">
+//                 End date: {rental.end_date} hours
+//               </Text>
+//             </Text>
+//           </div>
+//           <div className="flex flex-col laptop:flex-row laptop:justify-between gap-4">
+//             <Button
+//               mt="md"
+//               radius="sm"
+//               className="bg-orange text-darkgray hover:bg-lightgray my-4 text-lg font-bold"
+//               onClick={() =>
+//                 openModal({
+//                   title: "",
+//                   children: <ConfirmRentalModal />,
+//                   size: "lg",
+//                 })
+//               }
+//             >
+//               <FontAwesomeIcon icon={faCheck} className="mr-4" />
+//               Confirm
+//             </Button>
+//             <Button
+//               radius="sm"
+//               className="bg-orange text-darkgray hover:bg-lightgray my-4 text-lg font-bold"
+//               onClick={() => {
+//                 openModal({
+//                   title: "",
+//                   children: <CancelRentalModal />,
+//                   size: "lg",
+//                 });
+//               }}
+//             >
+//               <FontAwesomeIcon icon={faBan} className="mr-4" />
+//               Cancel
+//             </Button>
+//           </div>
+//         </Group>
+//       </Card>
+//     </div>
+//   );
+// }

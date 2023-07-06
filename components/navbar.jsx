@@ -11,6 +11,16 @@ import {
   Paper,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCartShopping,
+  faChartLine,
+  faHouse,
+  faScrewdriverWrench,
+  faToolbox,
+  faTruckFast,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 
 const useStyles = createStyles((theme) => ({
   dropdown: {
@@ -95,12 +105,47 @@ export default function Navbar() {
     },
   ];
 
+  const profileLinks = [
+    {
+      id: "1",
+      href: "/",
+      label: "Home",
+      icon: <FontAwesomeIcon icon={faHouse} className="mr-2 text-lg" />,
+    },
+    {
+      id: "2",
+      href: "/rentals",
+      label: "My Rentals",
+      icon: <FontAwesomeIcon icon={faTruckFast} className="mr-2 text-lg" />,
+    },
+    {
+      id: "3",
+      href: "/equipments",
+      label: "Equipments",
+      icon: <FontAwesomeIcon icon={faToolbox} className="mr-2 text-lg" />,
+    },
+  ];
+
   const [opened, { toggle }] = useDisclosure(false);
   const [active, setActive] = useState(links[0].href);
   const { classes, cx } = useStyles();
 
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setDropdownOpen((dropdownOpen) => !dropdownOpen);
+  };
+
+  const handleMouseLeave = () => {
+    setDropdownOpen(false);
+  };
+
+  const handleMouseEnter = () => {
+    setDropdownOpen(true);
+  };
+
   return (
-    <Header height={60} mb={0}>
+    <Header height={60} mb={0} className="">
       <Container className="flex justify-between items-center h-full">
         <Link href="/" className="normal-case text-xl font-extrabold">
           CERS
@@ -123,6 +168,66 @@ export default function Navbar() {
                   </Link>
                 </li>
               ))}
+              <li>
+                <Link
+                  href=""
+                  className={cx(classes.link)}
+                  onClick={toggleDropdown}
+                  size="sm"
+                  // onMouseLeave={handleMouseLeave}
+                  onMouseEnter={handleMouseEnter}
+                >
+                  <FontAwesomeIcon icon={faUser} />
+                </Link>
+                {dropdownOpen ? (
+                  <div className="absolute top-16 right-40 px-2 py-2 z-50 rounded bg-lightgray border-0 border-b-darkgray shadow-darkgray shadow-lg">
+                    <ul>
+                      {/*<li className="">*/}
+                      {/*  <Link href="/owner" className={cx(classes.link)}>*/}
+                      {/*    <FontAwesomeIcon*/}
+                      {/*      icon={faChartLine}*/}
+                      {/*      className="mr-3"*/}
+                      {/*    />*/}
+                      {/*    Dashboard*/}
+                      {/*  </Link>*/}
+                      {/*</li>*/}
+                      <li className="">
+                        <Link
+                          href="/owner/rentals"
+                          className={cx(classes.link)}
+                        >
+                          <FontAwesomeIcon
+                            icon={faCartShopping}
+                            className="mr-3"
+                          />
+                          My Rentals (Owner)
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/owner/equipments"
+                          className={cx(classes.link)}
+                        >
+                          <FontAwesomeIcon
+                            icon={faScrewdriverWrench}
+                            className="mr-3"
+                          />
+                          My Equipments (Owner)
+                        </Link>
+                      </li>
+                      <li>
+                        <Link href="/renter" className={cx(classes.link)}>
+                          <FontAwesomeIcon
+                            icon={faScrewdriverWrench}
+                            className="mr-3"
+                          />
+                          My rentals (Renter)
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+                ) : null}
+              </li>
             </ul>
           </div>
         </Group>
