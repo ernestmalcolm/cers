@@ -47,13 +47,35 @@ export default function OwnerRentals({ rentals }) {
 }
 
 function RentalRow({ rental }) {
-  console.log(rental);
   const [selectedRentalId, setSelectedRentalId] = useState(null);
 
-  const handleRentalClick = () => {
+  const handleViewRental = (selectedRentalId) => {
     setSelectedRentalId(rental.rental_id);
-    console.log(selectedRentalId);
+    openModal({
+      title: "",
+      children: <ViewRentalModal rental_id={selectedRentalId} />,
+      size: "lg",
+    });
   };
+
+  const handleCancelClick = (selectedRentalId) => {
+    setSelectedRentalId(rental.rental_id);
+    openModal({
+      title: "",
+      children: <CancelRentalModal rental_id={selectedRentalId} />,
+      size: "lg",
+    });
+  };
+
+  const handleConfirmClick = (selectedRentalId) => {
+    setSelectedRentalId(rental.rental_id);
+    openModal({
+      title: "",
+      children: <ConfirmRentalModal rental_id={selectedRentalId} />,
+      size: "lg",
+    });
+  };
+
   return (
     <div>
       <Card shadow="sm" radius="sm" withBorder className="laptop:h-fit">
@@ -66,12 +88,7 @@ function RentalRow({ rental }) {
           <div
             className="flex cursor-pointer"
             onClick={() => {
-              handleRentalClick();
-              openModal({
-                title: "",
-                children: <ViewRentalModal rental_id={selectedRentalId} />,
-                size: "lg",
-              });
+              handleViewRental(rental.rental_id);
             }}
           >
             <Text className="text-lg font-bold my-2 mx-6 flex flex-col text-darkgray">
@@ -88,6 +105,7 @@ function RentalRow({ rental }) {
               <Text c="dimmed" className="text-md font-normal mt-2">
                 End date: {rental.end_date} hours
               </Text>
+              {rental.details}
             </Text>
           </div>
           <div className="flex flex-col laptop:flex-row laptop:justify-between gap-4">
@@ -95,13 +113,7 @@ function RentalRow({ rental }) {
               mt="md"
               radius="sm"
               className="bg-orange text-darkgray hover:bg-lightgray my-4 text-lg font-bold"
-              onClick={() =>
-                openModal({
-                  title: "",
-                  children: <ConfirmRentalModal />,
-                  size: "lg",
-                })
-              }
+              onClick={() => handleConfirmClick(rental.rental_id)}
             >
               <FontAwesomeIcon icon={faCheck} className="mr-4" />
               Confirm
@@ -110,11 +122,7 @@ function RentalRow({ rental }) {
               radius="sm"
               className="bg-orange text-darkgray hover:bg-lightgray my-4 text-lg font-bold"
               onClick={() => {
-                openModal({
-                  title: "",
-                  children: <CancelRentalModal />,
-                  size: "lg",
-                });
+                handleCancelClick(rental.rental_id);
               }}
             >
               <FontAwesomeIcon icon={faBan} className="mr-4" />

@@ -7,7 +7,6 @@ import { supabaseClient } from "@/utils/supabaseClient";
 import { notifications } from "@mantine/notifications";
 
 export default function DeleteEquipmentModal({ equipment_id }) {
-  console.log(equipment_id);
   const handleDeleteEquipment = async () => {
     // Check if the equipment is used in any rentals
     const { data: relatedRentals, error: relatedRentalsError } =
@@ -17,9 +16,7 @@ export default function DeleteEquipmentModal({ equipment_id }) {
         .eq("equipment_id", equipment_id);
 
     if (relatedRentalsError) {
-      console.log(relatedRentals);
       console.log("Error deleting linked rentals", relatedRentalsError.message);
-      // throw new Error(relatedRentalsError.message);
     } else {
       for (const rental of relatedRentals) {
         await supabaseClient
@@ -35,12 +32,25 @@ export default function DeleteEquipmentModal({ equipment_id }) {
         .eq("equipment_id", equipment_id);
 
       if (deleteError) {
-        // throw new Error(deleteError.message);
         console.log("Error to delete equipment", deleteError.message);
         notifications.show({
           title: "Error deleting equipment",
           message: "The equipment and related rentals have not been deleted.",
-          color: "red",
+          styles: (theme) => ({
+            root: {
+              backgroundColor: theme.colors.lightgray,
+              borderColor: theme.colors.red,
+
+              "&::before": { backgroundColor: theme.colors.red },
+            },
+
+            title: { color: theme.colors.red },
+            description: { color: theme.colors.red },
+            closeButton: {
+              color: theme.colors.red,
+              "&:hover": { backgroundColor: theme.colors.lightgray },
+            },
+          }),
         });
       } else {
         console.log("Equipment deleted successfully");
@@ -48,7 +58,21 @@ export default function DeleteEquipmentModal({ equipment_id }) {
           title: "Equipment Deleted",
           message:
             "The equipment and related rentals have been successfully deleted.",
-          color: "teal",
+          styles: (theme) => ({
+            root: {
+              backgroundColor: theme.colors.lightgray,
+              borderColor: theme.colors.green,
+
+              "&::before": { backgroundColor: theme.colors.green },
+            },
+
+            title: { color: theme.colors.green },
+            description: { color: theme.colors.green },
+            closeButton: {
+              color: theme.colors.green,
+              "&:hover": { backgroundColor: theme.colors.lightgray },
+            },
+          }),
         });
       }
     }

@@ -39,6 +39,7 @@ function EquipmentImage({ equipment }) {
         <Card.Section>
           <Image
             src={`https://gjghraakekbiiwvlmout.supabase.co/storage/v1/object/public/cers_fyp/${equipment.equipment_id}`}
+            // src={equipment.photo}
             height={300}
             width={300}
             // fill

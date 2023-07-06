@@ -82,6 +82,9 @@ function RentalRow({ rental }) {
               >
                 Total Rental Price: Tsh.{rental.total_price}/=
               </Badge>
+              <Text className="text-lg font-bold my-2 mx-0 flex text-darkgray">
+                {rental.details}
+              </Text>
             </div>
             <div>
               <Text c="dimmed" className="text-md font-normal mt-2">
@@ -102,11 +105,28 @@ function RentalRow({ rental }) {
                   >
                     {rental.inquiry_status}
                   </Badge>
-                ) : (
+                ) : rental.inquiry_status === "rented" ? (
                   <Badge
                     variant="light"
                     radius="sm"
                     className="text-xs font-bold w-fit text-green bg-gray bg-opacity-50 mt-2 uppercase"
+                  >
+                    {rental.inquiry_status}
+                  </Badge>
+                ) : rental.inquiry_status === "cancelled" ? (
+                  <Badge
+                    variant="light"
+                    radius="sm"
+                    className="text-xs font-bold w-fit text-red bg-gray bg-opacity-50 mt-2 uppercase"
+                  >
+                    {rental.inquiry_status}
+                  </Badge>
+                ) : (
+                  // Handle other status values here
+                  <Badge
+                    variant="light"
+                    radius="sm"
+                    className="text-xs font-bold w-fit text-orange bg-gray bg-opacity-50 mt-2 uppercase"
                   >
                     {rental.inquiry_status}
                   </Badge>

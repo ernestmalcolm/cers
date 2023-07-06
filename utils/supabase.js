@@ -194,7 +194,7 @@ export async function AddEquipment(
   user_id,
   router
 ) {
-  const { data, error } = await supabaseClient.from("equipments_copy").insert([
+  const { data, error } = await supabaseClient.from("equipments").insert([
     {
       equipment_id,
       equipment_name,
@@ -243,10 +243,10 @@ export async function AddEquipment(
         message: "Successful added the equipment",
         styles: (theme) => ({
           root: {
-            backgroundColor: theme.colors.darkgray,
+            backgroundColor: theme.colors.green,
             borderColor: theme.colors.green,
 
-            "&::before": { backgroundColor: theme.colors.darkgray },
+            "&::before": { backgroundColor: theme.colors.green },
           },
 
           title: { color: theme.colors.green },
@@ -265,13 +265,13 @@ export async function AddEquipment(
         styles: (theme) => ({
           root: {
             backgroundColor: theme.colors.orange,
-            borderColor: theme.colors.darkgray,
+            borderColor: theme.colors.lightgray,
 
-            "&::before": { backgroundColor: theme.colors.darkgray },
+            "&::before": { backgroundColor: theme.colors.lightgray },
           },
 
-          title: { color: theme.colors.darkgray },
-          description: { color: theme.colors.darkgray },
+          title: { color: theme.colors.red },
+          description: { color: theme.colors.red },
           closeButton: {
             color: theme.colors.darkgray,
             "&:hover": { backgroundColor: theme.colors.gray },

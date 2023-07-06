@@ -182,15 +182,15 @@ export default function Navbar() {
                 {dropdownOpen ? (
                   <div className="absolute top-16 right-40 px-2 py-2 z-50 rounded bg-lightgray border-0 border-b-darkgray shadow-darkgray shadow-lg">
                     <ul>
-                      <li className="">
-                        <Link href="/owner" className={cx(classes.link)}>
-                          <FontAwesomeIcon
-                            icon={faChartLine}
-                            className="mr-3"
-                          />
-                          Dashboard
-                        </Link>
-                      </li>
+                      {/*<li className="">*/}
+                      {/*  <Link href="/owner" className={cx(classes.link)}>*/}
+                      {/*    <FontAwesomeIcon*/}
+                      {/*      icon={faChartLine}*/}
+                      {/*      className="mr-3"*/}
+                      {/*    />*/}
+                      {/*    Dashboard*/}
+                      {/*  </Link>*/}
+                      {/*</li>*/}
                       <li className="">
                         <Link
                           href="/owner/rentals"

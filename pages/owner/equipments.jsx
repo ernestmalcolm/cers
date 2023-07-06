@@ -61,6 +61,11 @@ function OwnerEquipment({ equipment }) {
 
   const handleDeleteClick = (selectedEquipmentId) => {
     setSelectedEquipmentId(equipment.equipment_id);
+    openModal({
+      title: "",
+      children: <DeleteEquipmentModal equipment_id={selectedEquipmentId} />,
+      size: "lg",
+    });
   };
 
   return (
@@ -74,7 +79,8 @@ function OwnerEquipment({ equipment }) {
         >
           <div className="flex">
             <Image
-              src={equipment.photo}
+              // src={equipment.photo}
+              src={`https://gjghraakekbiiwvlmout.supabase.co/storage/v1/object/public/cers_fyp/${equipment.equipment_id}`}
               height={80}
               width={160}
               className="rounded-lg"
@@ -113,15 +119,7 @@ function OwnerEquipment({ equipment }) {
               radius="sm"
               className="bg-orange text-darkgray hover:bg-lightgray my-4 text-lg font-bold"
               onClick={() => {
-                handleDeleteClick(selectedEquipmentId);
-                console.log(selectedEquipmentId);
-                openModal({
-                  title: "",
-                  children: (
-                    <DeleteEquipmentModal equipment_id={selectedEquipmentId} />
-                  ),
-                  size: "lg",
-                });
+                handleDeleteClick(equipment.equipment_id);
               }}
             >
               <FontAwesomeIcon icon={faTrash} className="mr-4" />

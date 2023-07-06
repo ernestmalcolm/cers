@@ -9,13 +9,55 @@ import {
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { supabaseClient } from "@/utils/supabaseClient";
+import { notifications } from "@mantine/notifications";
 
-export default function ConfirmRentalModal({ equipment_id }) {
-  const handleDeleteEquipment = async (rental_id) => {
+export default function ConfirmRentalModal({ rental_id }) {
+  const handleConfirmRental = async () => {
     const { data, error } = await supabaseClient
       .from("rentals")
-      .delete()
+      .update({ inquiry_status: "rented" })
       .eq("rental_id", rental_id);
+    if (error) {
+      notifications.show({
+        title: "Error confirming rental",
+        message: "Error confirming rental",
+        styles: (theme) => ({
+          root: {
+            backgroundColor: theme.colors.lightgray,
+            borderColor: theme.colors.red,
+
+            "&::before": { backgroundColor: theme.colors.red },
+          },
+
+          title: { color: theme.colors.red },
+          description: { color: theme.colors.red },
+          closeButton: {
+            color: theme.colors.red,
+            "&:hover": { backgroundColor: theme.colors.lightgray },
+          },
+        }),
+      });
+    } else {
+      notifications.show({
+        title: "Successfully confirmed the rental",
+        message: "Successful confirmed the rental",
+        styles: (theme) => ({
+          root: {
+            backgroundColor: theme.colors.lightgray,
+            borderColor: theme.colors.green,
+
+            "&::before": { backgroundColor: theme.colors.green },
+          },
+
+          title: { color: theme.colors.green },
+          description: { color: theme.colors.green },
+          closeButton: {
+            color: theme.colors.green,
+            "&:hover": { backgroundColor: theme.colors.lightgray },
+          },
+        }),
+      });
+    }
   };
 
   return (
@@ -27,6 +69,7 @@ export default function ConfirmRentalModal({ equipment_id }) {
         <Button
           radius="sm"
           className="bg-lightgray text-darkgray hover:bg-lightgray text-lg font-bold"
+          onClick={handleConfirmRental}
         >
           <FontAwesomeIcon icon={faCheck} className="mr-4" />
           Yes

@@ -7,6 +7,7 @@ import { FileInput, NumberInput, Select, TextInput } from "@mantine/core";
 import { Text, Group, Button, Stack, Textarea } from "@mantine/core";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { supabaseClient } from "@/utils/supabaseClient";
 
 export default function AddEquipmentModal() {
   const router = useRouter();
@@ -54,7 +55,7 @@ export default function AddEquipmentModal() {
   const handleAddEquipment = async (e) => {
     e.preventDefault();
 
-    await AddEquipment(
+    const data = await AddEquipment(
       equipment_id,
       equipmentName,
       equipmentDescription,
@@ -67,6 +68,17 @@ export default function AddEquipmentModal() {
       user_id,
       router
     );
+
+    if (data) {
+      const { data, error } = await supabaseClient.storage
+        .from("cers_fyp")
+        .upload(equipment_id + "/", photo);
+
+      console.log(data);
+      if (error) {
+        console.log(error);
+      }
+    }
     // e.preventDefault();
   };
 

@@ -111,7 +111,11 @@ export default function EquipmentPage({ equipment }) {
         className="laptop:w-3/5 laptop:flex-row laptop:justify-center laptop:items-center laptop:mx-auto laptop:mt-10 laptop:mb-10 laptop:shadow-lg"
       >
         <Card.Section className={classes.imageSection}>
-          <Image src={equipment.photo} height="20rem" />
+          <Image
+            // src={equipment.photo}
+            src={`https://gjghraakekbiiwvlmout.supabase.co/storage/v1/object/public/cers_fyp/${equipment.equipment_id}`}
+            height="20rem"
+          />
         </Card.Section>
 
         <Group mt="md" className="flex laptop:flex-row">
